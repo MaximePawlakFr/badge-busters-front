@@ -37,6 +37,50 @@
         }
     });
 
+    var ProfileTable = React.createClass({
+      getInitialState: function() {
+          return {
+               promo: ''
+          };
+      },
+      handlePromoChange: function(e) {
+        var val = e.target.value.trim();
+        this.setState({ promo: val  });
+      },
+      handleSubmit: function(e) {
+          console.log('handleSubmit');
+          e.preventDefault();
+          var promo = this.state.promo;
+          console.log(promo);
+          this.props.onPromoSubmit(promo);
+      },
+
+        render: function() {
+
+            var profileNodes = this.props.data.map(function(profile) {
+                return ( < ProfileRow data={profile}/> );
+            });
+
+            return ( < div className ="profileTable" >
+            < form onSubmit = {  this.handleSubmit  } >
+              < input name = "promo" type="text" value = {this.state.promo} onChange={this.handlePromoChange}/>
+              < input type = "submit" value = "Get promo" / >
+            < /form>
+
+            <table border="1">
+              <tr>
+                <th>Username</th>
+                <th>Badges</th>
+                <th>-</th>
+                <th>Timestamp</th>
+              </tr>
+                {profileNodes}
+            </table>
+
+            < /div>);
+        }
+    });
+
     var CommentForm = React.createClass({
         getInitialState: function() {
             return {
@@ -114,9 +158,29 @@
                   <li>Nb badges : {p.badgeNb}</li>
                   <li> {p.lastCoded}</li>
                   <li>Total points : {p.totalPoints}</li>
+                  <li>Date : {p.ts}</li>
 
                 </ul>
               </ul>< /div> );
+        }
+    });
+
+    var ProfileRow = React.createClass({
+      getInitialState: function() {
+        // console.log('profile');
+          return {
+              data: []
+          };
+      },
+        render: function() {
+          var p = this.props.data;
+            return ( < tr className = "profileRow" >
+              <td>{p.username}</td>
+              <td>{p.badgeNb}</td>
+              <td>{p.lastCoded}</td>
+              <td>{p.ts}</td>
+
+            < /tr> );
         }
     });
 
@@ -183,9 +247,10 @@
                < div className = "commentBox" >
                   < h1 > Comments < /h1>
                   < CommentForm onLinksSubmit = { this.handleLinksSubmit} />
-                  < CommentList onPromoSubmit={this.handlePromoSubmit} data={this.state.data}/>
+                  < ProfileTable onPromoSubmit={this.handlePromoSubmit} data={this.state.data}/>
                 < /div>
             );
+            // < CommentList onPromoSubmit={this.handlePromoSubmit} data={this.state.data}/>
         }
     });
     ReactDOM.render( < CommentBox url="http://localhost:8888/api/profiles" / > , document.getElementById('content'));
