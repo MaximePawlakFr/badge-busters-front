@@ -5,3 +5,8 @@ table {
 table, th, td {
     border: 1px solid black;
 }
+
+
+.c-table__cell.flex-5{
+	flex: 5 ;
+}
