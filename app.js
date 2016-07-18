@@ -187,13 +187,7 @@
             };
         },
         componentDidMount: function() {
-            var config = {
-                apiKey: "AIzaSyD_q49h1dF29xsKNPlH8DpCOHSfnJiJmnE",
-                databaseURL: "https://codecademy-eye.firebaseio.com/"
-            };
-            firebase.initializeApp(config);
-            console.log(this.state.data);
-        },
+        }
 
         handleLinksSubmit: function(promo, links) {
             console.log('handleLinksSubmit', links);
