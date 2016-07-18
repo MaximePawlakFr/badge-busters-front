@@ -30,8 +30,8 @@
             return (
               < div className ="profileTable" >
                 < form onSubmit = {  this.handleSubmit  } >
-                  < input className="c-field" name = "promo" type="text" placeholder="The name of the promo you want to fetch ..."value = {this.state.promo} onChange={this.handlePromoChange}/>
-                  < input type = "submit" className="c-button c-button--block c-button--secondary" value = "Get promo !" / >
+                  < input className="c-field" name = "promo" type="text" placeholder="The name of the promo you want to fetch ..."value={this.state.promo} onChange={this.handlePromoChange}/>
+                  < input id="getButton" type="submit" className="c-button c-button--block c-button--secondary" value = "Get promo !" / >
                 < /form>
 
                 <table border="1" className="c-table c-table--striped">
@@ -57,6 +57,7 @@
         getInitialState: function() {
             return {
                 text: '',
+                promoName:'',
                 links: []
             };
         },
@@ -97,13 +98,21 @@
             this.setState({
                 links: links
             });
+        }, handlePromoChange: function(e) {
+            var val = e.target.value.trim();
+            console.log(val);
+            this.setState({
+                promoName: val
+            });
         },
         handleSubmit: function(e) {
             console.log('handleSubmit');
             e.preventDefault();
             var links = this.state.links;
+            var promoName = this.state.promoName;
+
             console.log(links);
-            this.props.onLinksSubmit(links);
+            this.props.onLinksSubmit(promoName, links);
         },
         render: function() {
             return ( 
@@ -123,8 +132,11 @@
                     } > 
                   < /textarea> 
                   <div className="c-input-group">
-                    <input placeholder="Name of your promo. Ex : montreuil03 " className="c-field" type="text"/>
-                    <input type="submit" className="c-button c-button--primary" value="Fetch and parse profiles !" />
+                    <input placeholder="Name of your promo. Ex : montreuil03 " className="c-field" type="text"
+                      onChange = {
+                        this.handlePromoChange
+                    } />
+                    <input id="postButton" type="submit" className="c-button c-button--primary" value="Fetch and parse codecademy profiles !" />
                   < /div>
                   
                 < /form> 
@@ -183,43 +195,54 @@
             console.log(this.state.data);
         },
 
-        handleLinksSubmit: function(links) {
+        handleLinksSubmit: function(promo, links) {
             console.log('handleLinksSubmit', links);
+            var button =  $("#postButton");
+              button.attr("disabled", "disabled");
             var data = JSON.stringify({
                 links: links
             })
             console.log(data);
             $.ajax({
-                url: this.props.url,
+                url: this.props.url+"/"+promo,
                 contentType: "application/json; charset=utf-8",
                 type: 'POST',
                 timeout: 0,
                 data: data,
-                success: function(data) {
-                    console.log('success');
+                success: function(response) {
+                    console.log('success',response);
+                    button.removeAttr("disabled");
+
                     this.setState({
-                        data: data
+                        data: response.data
                     });
                 }.bind(this),
                 error: function(xhr, status, err) {
                     console.error(this.props.url, status, err.toString());
+                    button.removeAttr("disabled");
+                    
                 }.bind(this)
             });
         },
         handlePromoSubmit: function(promo) {
               console.log('handlePromoSubmit', promo);
+              var button =  $("#getButton");
+              button.attr("disabled", "disabled");
                $.ajax({
                 url: this.props.url+"/"+promo,
                 contentType: "application/json; charset=utf-8",
                 type: 'GET',
                 success: function(data) {
                     console.log('success');
+                    button.removeAttr("disabled");
+
                     this.setState({
                         data: data
                     });
                 }.bind(this),
                 error: function(xhr, status, err) {
                     console.error(this.props.url, status, err.toString());
+                    button.removeAttr("disabled");
                 }.bind(this)
             });
           },
@@ -228,11 +251,11 @@
                < div className = "commentBox" >
 
                   <div className="o-container o-container--medium">
-                  < h1 className="c-heading c-heading--super"> Codecademy profiles < /h1>
+                  < h1 className="c-heading c-heading--super"> Badge Busters ! < /h1>
                     < CommentForm onLinksSubmit = { this.handleLinksSubmit} />
                   </div>
                   <div className="o-container o-container--super">
-                      <h2 class="c-heading c-heading--medium">Find a promo</h2>
+                      <h2 className="c-heading c-heading--medium">Find a promo</h2>
                       < ProfileTable onPromoSubmit={this.handlePromoSubmit} data={this.state.data}/>
                   </div>
                 < /div>
