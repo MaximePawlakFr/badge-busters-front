@@ -7,7 +7,8 @@ class App extends Component {
     this.state =  {
       text: '',
       promoName:'',
-      links: []
+      links: [],
+      errorLinks: []
     };
   }
 
@@ -43,17 +44,18 @@ class App extends Component {
         // To avoid things like : "https://...
         var index = link.indexOf(codecademyBaseUrl);
         link = link.slice(index);
-      }else if(link.indexOf(' ') == -1){
-        // If no space, could be a codecademy pseudo;
-        link = codecademyBaseUrl + "/" + link;
-        guessedLinks.push(e);
-        return;
       }
+      // else if(link.indexOf(' ') == -1){
+      //   // If no space, could be a codecademy pseudo;
+      //   link = codecademyBaseUrl + "/" + link;
+      //   guessedLinks.push(e);
+      //   return;
+      // }
       // console.log("link", link);
 
       if ( (link.startsWith(codecademyBaseUrl) || link.startsWith(codecademyBaseUrl2) ) &&
-      link.indexOf(falseUrl) == -1 &&
-      link.indexOf(falseUrl2) == -1 &&
+      link.indexOf(falseUrl) === -1 &&
+      link.indexOf(falseUrl2) === -1 &&
       link != codecademyBaseUrl &&
       link != codecademyBaseUrl+"/fr") {
         var linkNoAchievements = link.split('/achievements')[0];
@@ -73,7 +75,9 @@ class App extends Component {
     console.log("guessedLinks", guessedLinks);
     console.log("errorLinks", errorLinks);
     this.setState({
-      links: links
+      links: links,
+      errorLinks: errorLinks
+
     });
   }
 
@@ -96,6 +100,13 @@ class App extends Component {
   }
 
   render() {
+    let errorNodes = null;
+    if(this.state.errorLinks.length > 0){
+      errorNodes = this.state.errorLinks.map(function(link, index){
+        return (<li key={ index }>{ link }</li>);
+      });
+    }
+
     return (
       <div className="commentForm" >
         <form onSubmit = {
@@ -121,11 +132,19 @@ class App extends Component {
             />
             <input ref={(input) => { this.submitButton = input; }}
               type="submit"
-              className="c-button c-button--primary"
+              className="c-button c-button--info"
               value="Fetch and parse codecademy profiles !" />
           </div>
-
         </form>
+        { errorNodes?(
+          <div className="mp-error-links c-alert c-alert--error">
+            <h4>Ces liens n'ont pas pu être identifiés : </h4>
+            <ul>
+              { errorNodes }
+            </ul>
+          </div>
+            ):""
+        }
       </div>
     );
   }

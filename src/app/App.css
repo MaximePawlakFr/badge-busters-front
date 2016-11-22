@@ -13,3 +13,7 @@ table, th, td {
 .c-table__cell.flex-5{
 	flex: 5 ;
 }
+
+.mp-error-links {
+  margin-top: 1em;
+}
