@@ -4,3 +4,5 @@ In app.js, edit :
 
 # To do
 * lowercase promo names
+* corriger les liens codecademy cassés
+* indiquer les liens non-pris en compte

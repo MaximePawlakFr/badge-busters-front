@@ -18,24 +18,49 @@ class App extends Component {
       text: val
     });
     var codecademyBaseUrl = "https://www.codecademy.com";
+    var codecademyBaseUrl2 = "https://www.codeacademy.com";
     var falseUrl = "codecademy.com/courses";
     var falseUrl2 = "codecademy.com/fr/courses";
 
-    var links = val.split('\n').map(function(e) {
-      var tmp = e.trim();
-      tmp = tmp.replace(/['"]+/g, '').replace(/['"]+/g, '');
-      var urlRegex = /^((http[s]):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$/g;
-      var res = tmp.match(urlRegex);
+    var errorLinks = [];
+    var guessedLinks = [];
 
-      if(res){
-        e = res[0];
-        e = e.split(/(\s+)/)[0];
+    var links = val.split('\n').map(function(e) {
+      // console.log(e);
+      var link = e.trim();
+      // Delete space and keep first
+
+      // Check if it's a url.
+      var urlRegex = /^((http[s]):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$/g;
+      var isUrl = link.match(urlRegex);
+      // console.log("isUrl", isUrl, link.indexOf(' '));
+
+      if(isUrl){
+        link = isUrl[0];
+        link = link.split(' ')[0];
+
+      }else if(link.indexOf(codecademyBaseUrl) > -1){
+        // To avoid things like : "https://...
+        var index = link.indexOf(codecademyBaseUrl);
+        link = link.slice(index);
+      }else if(link.indexOf(' ') == -1){
+        // If no space, could be a codecademy pseudo;
+        link = codecademyBaseUrl + "/" + link;
+        guessedLinks.push(e);
+        return;
       }
-      if (e.startsWith(codecademyBaseUrl) && e.indexOf(falseUrl) == -1 && e.indexOf(falseUrl2) == -1) {
-        var noAchievements = e.split('/achievements')[0];
-        console.log('e',noAchievements);
-        return noAchievements;
+      // console.log("link", link);
+
+      if ( (link.startsWith(codecademyBaseUrl) || link.startsWith(codecademyBaseUrl2) ) &&
+      link.indexOf(falseUrl) == -1 &&
+      link.indexOf(falseUrl2) == -1 &&
+      link != codecademyBaseUrl &&
+      link != codecademyBaseUrl+"/fr") {
+        var linkNoAchievements = link.split('/achievements')[0];
+        // console.log('final',e, linkNoAchievements);
+        return linkNoAchievements;
       } else {
+        errorLinks.push(e);
         return;
       }
     }).filter(function(item) {
@@ -45,6 +70,8 @@ class App extends Component {
     });
 
     console.log("links", links);
+    console.log("guessedLinks", guessedLinks);
+    console.log("errorLinks", errorLinks);
     this.setState({
       links: links
     });
