@@ -16,10 +16,9 @@ class App extends Component {
       }
 
       handleSubmit = (e) => {
-          console.log('handleSubmit');
           e.preventDefault();
-          var promo = this.state.promo;
-          // promo = promo.toLowerCase();
+          let promo = this.state.promo;
+          promo = promo.toLowerCase();
 
           console.log(promo);
           let button = this.submitButton;
@@ -27,18 +26,22 @@ class App extends Component {
       }
 
         render() {
-            var profileNodes = this.props.data.map(function(profile, index) {
-              // if(Number.isInteger(parseInt(profile.badgeNb))){
-              return ( < ProfileRow data={ profile } key={ index }/> );
-              // }
+            let profileNodes = this.props.data.map(function(profile, index) {
+              return ( <ProfileRow data={ profile } key={ index }/> );
             });
 
             return (
-              < div className ="profileTable" >
-                < form onSubmit = {  this.handleSubmit  } >
-                  < input className="c-field" name = "promo" type="text" placeholder="The name of the promo you want to fetch ..."value={this.state.promo} onChange={this.handlePromoChange}/>
-                  < input ref={ (i)=>{this.submitButton = i;} } type="submit" className="c-button c-button--block c-button--info" value = "Get promo !" / >
-                < /form>
+              <div className="profileTable" >
+                <form onSubmit={  this.handleSubmit  } >
+                  <input className="c-field" name="promo" type="text"
+                    placeholder="The name of the promo you want to fetch ..."
+                    value={this.state.promo}
+                    onChange={this.handlePromoChange}/>
+                  <input ref={ (i)=>{this.submitButton = i;} }
+                    type="submit" 
+                    className="c-button c-button--block c-button--info"
+                    value="Get promo !" / >
+                </form>
 
                 <table className="c-table c-table--striped">
                   <thead className="c-table__head">
@@ -55,7 +58,7 @@ class App extends Component {
                     </tbody>
                 </table>
 
-                < /div>);
+              </div>);
         }
 }
 

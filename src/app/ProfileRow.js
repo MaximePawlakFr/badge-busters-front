@@ -21,7 +21,7 @@ class App extends Component {
     let ts = profile.ts?profile.ts.replace("T", " "):"";
 
     return (
-      <tr className = "profileRow c-table__row" >
+      <tr className="profileRow c-table__row" >
         <td className="c-table__cell"><a href={ profile.url }>{ profile.username }</a></td>
         <td className="c-table__cell">{ profile.badgeNb }</td>
         <td className="c-table__cell">{ profile.lastCoded }</td>

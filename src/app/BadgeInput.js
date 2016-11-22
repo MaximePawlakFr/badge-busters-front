@@ -56,19 +56,19 @@ class App extends Component {
       if ( (link.startsWith(codecademyBaseUrl) || link.startsWith(codecademyBaseUrl2) ) &&
       link.indexOf(falseUrl) === -1 &&
       link.indexOf(falseUrl2) === -1 &&
-      link != codecademyBaseUrl &&
-      link != codecademyBaseUrl+"/fr") {
+      link !== codecademyBaseUrl &&
+      link !== codecademyBaseUrl+"/fr") {
         var linkNoAchievements = link.split('/achievements')[0];
-        // console.log('final',e, linkNoAchievements);
         return linkNoAchievements;
       } else {
         errorLinks.push(e);
-        return;
+        return null;
       }
     }).filter(function(item) {
       if (item) {
         return true;
       }
+      return false;
     });
 
     console.log("links", links);
@@ -109,17 +109,17 @@ class App extends Component {
 
     return (
       <div className="commentForm" >
-        <form onSubmit = {
+        <form onSubmit={
           this.handleSubmit
         } >
-          <textarea name = "links" className="c-field"
+          <textarea name="links" className="c-field"
           placeholder="List of codecademy urls. Copy and paste your SpreadSheet column Ex : https://www.codecademy.com/fr/Mcesbron  https://www.codecademy.com/fr/valeriie26"
-          rows = "15"
-          cols = "80"
-          value = {
+          rows="15"
+          cols="80"
+          value={
             this.state.text
           }
-          onChange = {
+          onChange={
             this.handleTextChange
           } >
           </textarea>
@@ -128,7 +128,7 @@ class App extends Component {
             <input placeholder="Name of your promo. Ex : montreuil03 "
               className="c-field"
               type="text"
-              onChange = { this.handlePromoChange }
+              onChange={ this.handlePromoChange }
             />
             <input ref={(input) => { this.submitButton = input; }}
               type="submit"
