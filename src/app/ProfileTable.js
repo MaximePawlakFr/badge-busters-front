@@ -37,7 +37,7 @@ class App extends Component {
               < div className ="profileTable" >
                 < form onSubmit = {  this.handleSubmit  } >
                   < input className="c-field" name = "promo" type="text" placeholder="The name of the promo you want to fetch ..."value={this.state.promo} onChange={this.handlePromoChange}/>
-                  < input ref={ (i)=>{this.submitButton = i;} } type="submit" className="c-button c-button--block c-button--secondary" value = "Get promo !" / >
+                  < input ref={ (i)=>{this.submitButton = i;} } type="submit" className="c-button c-button--block c-button--info" value = "Get promo !" / >
                 < /form>
 
                 <table className="c-table c-table--striped">
