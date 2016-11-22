@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 
 import BadgeInput from './BadgeInput';
+import ProfileTable from './ProfileTable';
+
+import './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -41,27 +44,27 @@ class App extends Component {
     });
   }
 
-  handlePromoSubmit = (promo) => {
-    console.log('handlePromoSubmit', promo);
+  handleGetPromoSubmit = (button, promo) => {
+    console.log('handleGetPromoSubmit', promo);
 
-    var button =  $("#getButton");
-    button.attr("disabled", "disabled");
+    button.setAttribute("disabled", "disabled");
     $.ajax({
       url: this.props.url+"/"+promo,
       contentType: "application/json; charset=utf-8",
       type: 'GET',
       success: function(data) {
         console.log('success');
-        button.removeAttr("disabled");
 
         this.setState({
           data: data
         });
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-        button.removeAttr("disabled");
-      }.bind(this)
+        console.error(status, err.toString());
+      },
+      complete: function(){
+        button.removeAttribute("disabled", "disabled");
+      }
     });
   }
 
@@ -75,7 +78,7 @@ class App extends Component {
 
         <div className="o-container o-container--super">
           <h2 className="c-heading c-heading--medium">Find a promo</h2>
-          {/* // <ProfileTable onPromoSubmit={ this.handlePromoSubmit } data={this.state.data}/> */}
+          <ProfileTable onGetPromoSubmit={ this.handleGetPromoSubmit } data={ this.state.data }/>
         </div>
       </div>
     );
