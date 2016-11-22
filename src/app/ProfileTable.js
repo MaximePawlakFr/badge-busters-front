@@ -45,8 +45,8 @@ class App extends Component {
                   <tr className="c-table__row c-table__row--heading">
                     <th className="c-table__cell">Username</th>
                     <th className="c-table__cell">Badges</th>
-                    <th className="c-table__cell">Last coded</th>
-                    <th className="c-table__cell">mis à jour le</th>
+                    <th className="c-table__cell">Last coded depuis la MAJ</th>
+                    <th className="c-table__cell">Mis à jour le</th>
                     <th className=" flex-5 c-table__cell">Badges</th>
                   </tr>
                   </thead>
