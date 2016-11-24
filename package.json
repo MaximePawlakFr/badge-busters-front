@@ -3,16 +3,18 @@
   "version": "2.0.0",
   "description": "Badge buster Front to display evolution through Codecademy candidates",
   "main": "app.js",
+  "homepage": "https://maximepawlak.github.io/badge-busters-front",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "npm run build&&gh-pages -d build"
+    "deploy": "npm run build && gh-pages -d build"
   },
   "author": "Maxime Pawlak",
   "license": "ISC",
   "devDependencies": {
+    "gh-pages": "^0.12.0",
     "react-scripts": "0.7.0"
   },
   "dependencies": {
