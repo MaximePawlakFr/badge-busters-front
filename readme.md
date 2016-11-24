@@ -1,6 +1,7 @@
 # Badge Busters
 In order to make Simplon selection easier, Badge Busters (catch them all) enables to sum-up the Codecademy profiles of the candidates.
 
+
 The process is in 2 steps :
 * fetch and save profiles
 * display the profiles in a table
@@ -39,7 +40,6 @@ To save (or update) a promo, the endpoint is
 > http://badgebusters.simplon.xyz/api/profiles/{promoName}.
 
 The body is a simple json { "links": [{ array of codecademy profile urls }] }.
-
 
 For example,for a promo called *simplonmidipyrenees* , the
 endpoint is
@@ -90,9 +90,9 @@ The response will be an array with profiles :
         "badges": [
             {
                 "date": "May 30, 2016",
-                "name": "Le b.a.-ba du langage HTML"
             },
             {
+              "name": "Le b.a.-ba du langage HTML"
                 "date": "May 30, 2016",
                 "name": "10 Exercises"
             },
