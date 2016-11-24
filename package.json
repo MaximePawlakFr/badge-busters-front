@@ -1,5 +1,5 @@
 {
-  "name": "badge-buster-front",
+  "name": "badge-busters-front",
   "version": "2.0.0",
   "description": "Badge buster Front to display evolution through Codecademy candidates",
   "main": "app.js",
